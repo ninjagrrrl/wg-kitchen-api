@@ -164,6 +164,8 @@ Dieses Projekt dient dazu:
 - Produktionsnah zu deployen
 - Projektstruktur systematisch aufzubauen
 
+---
+
 # Entwicklungslog
 
 ## TAG 1 – Backend-Grundgerüst
@@ -233,12 +235,57 @@ Klare Trennung von Entwicklungs- und Produktionsumgebung.
 
 ---
 
-### Status
+## TAG 2 – Projektstruktur & Routing-Architektur
 
-TAG 1 ist abgeschlossen, wenn:
+### Ziel
 
-- Der Server lokal läuft
-- `GET /` erfolgreich getestet wurde
-- Die Projektstruktur bewusst verstanden ist
+Professionalisierung der Backend-Architektur durch klare Trennung von Routing, Controllern und Middleware.
 
-Mein Fokus lag auf Architekturverständnis.
+---
+
+### Eingeführte Struktur
+
+src/
+routes/
+controllers/
+services/
+middleware/
+
+---
+
+### Trennung von Routing und Controller
+
+- `routes/` definiert ausschließlich URL-Mappings.
+- `controllers/` enthält HTTP-spezifische Logik (Request → Response).
+
+Diese Trennung ermöglicht:
+
+- bessere Lesbarkeit
+- geringere Kopplung (Loose Coupling)
+- saubere Skalierbarkeit bei wachsender Anzahl von Endpoints
+- klare Verantwortlichkeiten (Seperation of Concerns)
+
+---
+
+### Einführung einer Error-Handling-Middleware
+
+- Zentrale Fehlerbehandlung am Ende der Middleware-Pipeline
+- Vermeidung redundanter try/catch-Blöcke in Controllern
+- Vorbereitung auf zukünftige Business-Logik und Datenbankfehler
+
+---
+
+### Mounting der API unter `/api`
+
+- Klare Trennung zwischen API und möglichem Frontend
+- Vorbereitung für Versionierung (z. B. `/api/v1`)
+- Bessere Infrastruktur-Kompatibilität in Produktionsumgebungen
+
+---
+
+### Erkenntnisse
+
+- Express verarbeitet Requests sequenziell über eine Middleware-Pipeline.
+- Middleware-Reihenfolge ist entscheidend.
+- Fehler propagieren nach unten zur nächsten Error-Middleware.
+- Saubere Architektur bedeutet Trennung von Verantwortlichkeiten.
