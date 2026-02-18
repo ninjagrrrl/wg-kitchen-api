@@ -1,12 +1,14 @@
 import express from "express";
+import router from "./routes";
+import { requestLogger, errorHandler } from "./middleware/middleware";
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  res.send("WG Kitchen API is running!");
-});
+app.use(requestLogger);
+app.use("/api", router);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
