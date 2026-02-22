@@ -289,3 +289,69 @@ Diese Trennung ermöglicht:
 - Middleware-Reihenfolge ist entscheidend.
 - Fehler propagieren nach unten zur nächsten Error-Middleware.
 - Saubere Architektur bedeutet Trennung von Verantwortlichkeiten.
+
+---
+
+## Infrastruktur-Entscheidung vor TAG 3 – Datenbank-Strategie
+
+### Ausgangspunkt
+
+Für TAG 3 war geplant, PostgreSQL lokal zu installieren, um relationale Datenmodellierung praxisnah zu erlernen.
+
+---
+
+### Versuch 1 – Native PostgreSQL Installation
+
+- Installation via Homebrew
+- Abbruch aufgrund von macOS-Kompatibilitätsproblemen (Tier 3 Support)
+- Command Line Tools Update erforderlich
+- Hoher Installationsaufwand im Verhältnis zum Lernziel
+
+**Erkenntnis:**  
+Lokale Installation ist systemabhängig und kann Zeit kosten, die nicht direkt zum Architekturverständnis beiträgt.
+
+---
+
+### Versuch 2 – Docker-basierte PostgreSQL-Instanz
+
+- Docker Desktop installiert
+- Kompatibilitätsproblem mit macOS-Version
+- Docker nicht nutzbar
+
+**Erkenntnis:**  
+Containerisierung ist eine saubere Lösung, aber abhängig von Systemunterstützung.
+
+---
+
+### Finale Entscheidung – Railway PostgreSQL (Cloud-Variante)
+
+PostgreSQL wird als Managed Service über Railway genutzt.
+
+**Begründung:**
+
+- Fokus auf relationaler Modellierung statt Infrastruktur-Debugging
+- Produktionsnahe Umgebung
+- Kein lokaler Installationsaufwand
+- Saubere Trennung von Application Server und Database Server
+- Nutzung von Environment Variables (`DATABASE_URL`) zur Infrastruktur-Abstraktion
+
+---
+
+### Architektonische Erkenntnisse
+
+- Datenbank-Server und Application-Server sind getrennte Systeme.
+- Der Standort der Datenbank ist für die Anwendung irrelevant, solange die Verbindung über `DATABASE_URL` konfiguriert wird.
+- Unterschied zwischen:
+  - Infrastructure as a Service (AWS)
+  - Platform as a Service (Railway)
+  - Backend as a Service (Supabase)
+- Umgebungsbasierte Konfiguration ermöglicht klare Trennung von Development, Staging und Production.
+
+---
+
+### Lerngewinn vor eigentlichem TAG 3
+
+- Verständnis von Environment Separation
+- Unterschied zwischen lokaler und cloudbasierter Infrastruktur
+- Abstraktionsebenen moderner Cloud-Architektur
+- Warum Konfigurationsmanagement (Env Variables) essenziell ist
